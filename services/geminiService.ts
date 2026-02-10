@@ -2,9 +2,12 @@
 import { GoogleGenAI } from "@google/genai";
 
 export class GeminiService {
+  /**
+   * Generates a heartfelt remark based on keywords.
+   */
   async generateHeartfeltRemark(keywords: string): Promise<string> {
     try {
-      const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+      const ai = new GoogleGenAI({ apiKey: process.env.API_KEY || '' });
       const response = await ai.models.generateContent({
         model: 'gemini-3-flash-preview',
         contents: `Create a warm, emotional, and creative farewell remark for a class 7 student based on these keywords: "${keywords}". Keep it under 40 words and make it sound personal and friendly.`,
@@ -16,11 +19,14 @@ export class GeminiService {
     }
   }
 
+  /**
+   * Summarizes all collected memories into a final farewell letter.
+   */
   async summarizeClassMemories(memories: any[]): Promise<string> {
     if (memories.length === 0) return "Our story is just beginning...";
     const memoryText = memories.map(m => `${m.name} (${m.category}): ${m.content}`).join('\n');
     try {
-      const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+      const ai = new GoogleGenAI({ apiKey: process.env.API_KEY || '' });
       const response = await ai.models.generateContent({
         model: 'gemini-3-flash-preview',
         contents: `I have a list of memories from Class 7A students across different categories like sports and friendships. Please write a beautiful, collective farewell letter (approx 150 words) that captures the essence of these moments to send to their teacher. 
